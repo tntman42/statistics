@@ -1,4 +1,3 @@
-from .binomial import *
-from .combinotorics import *
-from .poisson import *
+from .continuous_distributions import *
+from .discrete_distributions import *
 from .stat import *
