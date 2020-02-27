@@ -1,10 +1,27 @@
 import math
 import numpy
 from .distributions import discritize_function
+import calculus_math
 
 
 def z_eval(z):
     return (1 / math.sqrt(2 * math.pi)) * math.exp(-0.5 * (z ** 2))
+
+
+def erf(x):
+    if -5 < x < 5:
+        a = 2
+        c = 2.4065
+        o = a / 2
+        return a * (math.exp(c * x) / (math.exp(c * x) + 1)) - o
+    else:
+        return 2 / math.sqrt(math.pi) * calculus_math.integral(lambda t: math.exp(-t ** 2), 0, x)
+
+
+def z_integrate(a, b):
+    sqrt_half = math.sqrt(0.5)
+    sqrt_pih = math.sqrt(math.pi / 2)
+    return (1 / math.sqrt(2 * math.pi)) * ((sqrt_pih * erf(sqrt_half * b)) - (sqrt_pih * erf(sqrt_half * a)))
 
 
 class NormalDistribution(object):

@@ -1,4 +1,6 @@
 from .combinotorics import *
+from stat_math.stat import expected_value
+from stat_math.continuous_distributions import *
 
 
 class BinomialDistribution(object):
@@ -16,6 +18,17 @@ class BinomialDistribution(object):
 
     def variance(self):
         return self.n * self.p * self.q
+
+    def approximate_normal(self):
+        if self.n * self.p > 5 and self.n * self.q > 5:
+            mean = expected_value(self.eval, range(self.n))
+            deviation = math.sqrt(self.variance())
+            return NormalDistribution(mean, deviation)
+        else:
+            raise Exception("Cannot make a small binomial into a normal distribution.")
+
+    def normal_eval(self, x):
+        return z_integrate()
 
 
 class NegativeBinomialDistribution(object):
