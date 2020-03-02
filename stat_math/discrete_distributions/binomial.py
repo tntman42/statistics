@@ -27,9 +27,6 @@ class BinomialDistribution(object):
         else:
             raise Exception("Cannot make a small binomial into a normal distribution.")
 
-    def normal_eval(self, x):
-        return z_integrate()
-
 
 class NegativeBinomialDistribution(object):
 

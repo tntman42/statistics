@@ -23,6 +23,9 @@ class UniformDistribution(object):
     def __str__(self):
         return "Uniform:(" + str(self.lower) + ", " + str(self.upper) + ")"
 
+    def integrate(self, a, b):
+        return (b - a) / (self.upper - self.lower)
+
     def draw(self, resolution=0.01):
         margin = (self.upper - self.lower) / 10
         discritize_function(lambda x: self[x], numpy.arange(self.lower - margin, self.upper + margin, resolution), plot=True)
