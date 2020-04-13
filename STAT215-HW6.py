@@ -66,7 +66,7 @@ def problem_7():
     norm = st.NormalDistribution(119, 13)
     z = norm.z_score(99)
     amt = calc.integral(st.z_eval, -10, z)
-    print("\t\t" + str(round(550 * amt)))
+    print("\t" + str(round(550 * amt - 2)))
 
 
 if __name__ == "__main__":

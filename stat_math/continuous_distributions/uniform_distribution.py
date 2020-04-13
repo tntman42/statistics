@@ -1,8 +1,8 @@
-from .distributions import discritize_function
+from .distributions import discritize_function, Distribution
 import numpy
 
 
-class UniformDistribution(object):
+class UniformDistribution(Distribution):
 
     def __init__(self, lower, upper):
         self.lower = lower
@@ -10,9 +10,6 @@ class UniformDistribution(object):
 
     def eval(self, x):
         return (1 / (self.upper - self.lower)) if self.lower <= x <= self.upper else 0
-
-    def __getitem__(self, item):
-        return self.eval(item)
 
     def expected_value(self):
         return (self.lower + self.upper) / 2
