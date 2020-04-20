@@ -2,7 +2,7 @@
 def cdf(funk, xrange):
     prob = 0
     for x in xrange:
-        prob += funk(x, *params)
+        prob += funk(x)
     return prob
 
 
@@ -11,4 +11,3 @@ def expected_value(funk, xrange):
     for x in xrange:
         val += x * funk(x)
     return val
-

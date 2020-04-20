@@ -26,11 +26,31 @@ def z_integrate(a, b):
     return (1 / math.sqrt(2 * math.pi)) * ((sqrt_pih * erf(sqrt_half * b)) - (sqrt_pih * erf(sqrt_half * a)))
 
 
+def confidence_z(confidence):
+    left = (1 + confidence) / 2
+    z = 0
+    ar = calculus_math.integral(lambda x: z_eval(x), -5, z)
+    incr = 1
+    while abs(ar - left) > 0.001:
+        if ar < left:
+            z += incr
+        elif ar > left:
+            z -= incr
+            incr /= 10
+            z += incr
+        ar = calculus_math.integral(lambda x: z_eval(x), -5, z)
+    ar = calculus_math.integral(lambda x: z_eval(x), -5, z)
+    ar1 = calculus_math.integral(lambda x: z_eval(x), -5, z + incr)
+
+    return z if abs(ar - left) < abs(ar1 - left) else z + incr
+
+
 class NormalDistribution(Distribution):
 
-    def __init__(self, mean, deviation):
+    def __init__(self, mean, deviation, sample_size=0):
         self.mean = mean
         self.deviation = deviation
+        self.sample_size = sample_size
 
     def variance(self):
         return self.deviation ** 2
@@ -39,7 +59,8 @@ class NormalDistribution(Distribution):
         return self.mean
 
     def eval(self, x):
-        return (1 / (self.deviation * math.sqrt(2 * math.pi))) * math.exp((-1 / (2 * (self.deviation ** 2))) * ((x - self.mean) ** 2))
+        return (1 / (self.deviation * math.sqrt(2 * math.pi))) * math.exp(
+            (-1 / (2 * (self.deviation ** 2))) * ((x - self.mean) ** 2))
 
     def z_score(self, x):
         return (x - self.mean) / self.deviation
@@ -50,3 +71,6 @@ class NormalDistribution(Distribution):
     def draw(self, resolution=0.01):
         discritize_function(lambda x: self[x], numpy.arange(self.mean - self.deviation * 4,
                                                             self.mean + self.deviation * 4, resolution), plot=True)
+
+    def sample_mean(self, sample_size):
+        return NormalDistribution(self.mean, self.deviation / math.sqrt(sample_size), sample_size)
